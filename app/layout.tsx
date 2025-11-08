@@ -1,21 +1,21 @@
 // app/layout.tsx
-import "./globals.css";
-import { ReactNode } from "react";
+import type { Metadata } from 'next'
+import './globals.css'
 
-export const metadata = {
-  title: "My Social",
-};
+export const metadata: Metadata = {
+  title: 'My Social',
+  description: 'A social app',
+  // add other fields as needed like openGraph, robots, icons...
+}
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        <div>{children}</div>
-      </body>
+      <body>{children}</body>
     </html>
-  );
+  )
 }
+
 
 function Header() {
   return (
