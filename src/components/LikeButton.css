@@ -1,0 +1,164 @@
+/* =========================
+   Base wrapper
+========================= */
+.like-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =========================
+   Button
+========================= */
+.like-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  font-size: 16px;
+
+  transition: transform 90ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.like-button:active {
+  transform: scale(0.96);
+}
+
+/* =========================
+   Heart icon
+========================= */
+.heart {
+  font-size: 20px;
+  color: transparent;
+  -webkit-text-stroke: 1.8px #C7CBD1;
+  transition:
+    color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    -webkit-text-stroke-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Liked resting state */
+.like-button.liked .heart {
+  color: #ff6f61;
+  -webkit-text-stroke-color: #ff6f61;
+  -webkit-text-stroke-width: 1.6px;
+}
+
+/* ❤️‍🔥 Ignite (intentional, not bouncy) */
+.like-button.ignite {
+  animation: heartIgnite 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes heartIgnite {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* Subtle glow only when liked */
+.like-button.liked .heart {
+  text-shadow:
+    0 0 6px rgba(255, 80, 80, 0.6),
+    0 0 14px rgba(255, 80, 80, 0.35);
+}
+
+/* =========================
+   Count (Step D + E3)
+========================= */
+.count {
+  display: inline-block;
+  min-width: 1.5ch;
+
+  transition:
+    transform 180ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 180ms linear;
+}
+
+.count-up {
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+.count-down {
+  transform: translateY(2px);
+  opacity: 0.85;
+}
+
+/* =========================
+   Particle (single dot)
+========================= */
+.like-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #f97316;
+  opacity: 0.35;
+  border-radius: 50%;
+  animation: particleUp 120ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes particleUp {
+  from {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  to {
+    transform: translateY(-7px);
+    opacity: 0;
+  }
+}
+
+/* =========================
+   Booster text
+========================= */
+.like-booster {
+  font-size: 12px;
+  color: #f97316;
+  opacity: 0;
+  animation: boosterFloat 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes boosterFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* =========================
+   Error feedback
+========================= */
+.like-error {
+  font-size: 12px;
+  color: #ef4444;
+}
+
+/* =========================
+   Reduced motion (E2)
+========================= */
+@media (prefers-reduced-motion: reduce) {
+  .like-button,
+  .heart,
+  .count,
+  .like-particle,
+  .like-booster {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+.like-button:active {
+  transform: scale(0.97);
+}

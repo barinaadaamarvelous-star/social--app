@@ -1,0 +1,12 @@
+.creator-reflection {
+  margin-top: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid #eee;
+  color: #666;
+}
+
+.creator-reflection strong {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}

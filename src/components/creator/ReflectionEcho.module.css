@@ -1,0 +1,254 @@
+.echoContainer {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px;
+  border-radius: 12px;
+  max-width: 680px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.echoToggle {
+  all: unset;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  transition: opacity var(--echo-duration-short) var(--echo-ease);
+}
+
+.echoToggle:hover {
+  opacity: 0.9; /* not dramatic */
+}
+
+.echoToggle:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.echoContent {
+  margin-top: 10px;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.echoLabel {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.echoBody {
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* invariant enforcement through UX
+   - no bright colors
+   - no animation drama
+   - looks complete even when collapsed
+*/
+
+.container {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.button {
+  all: unset;
+  cursor: pointer;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.button:hover {
+  opacity: 1;
+}
+
+.content {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.label {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.body {
+  opacity: 0.9;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* invariant feeling: calm, optional, ignorable */
+.container {
+  box-shadow: none;
+  animation: none;
+}
+ /* ──────────────────────────────── */
+/* cooldown soft-lock visuals */
+/* ──────────────────────────────── */
+
+.echoCooldown {
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+
+.echoCooldownText {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+.echoTimeDistance {
+  font-size: 0.75rem;
+  opacity: 0.65;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+/* cooldown state */
+.echoCooldown {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  margin-bottom: 8px;
+}
+
+.echoCooldownText {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+/* ─────────────────────────────────────────
+   VISUAL INERTIA — emotional suspension
+   - slow fades
+   - no bounce
+   - no “reward” animations
+   - clarity emerges gently
+────────────────────────────────────────── */
+
+:root {
+  --echo-ease: cubic-bezier(0.25, 0.1, 0.25, 1); /* calm */
+  --echo-duration-short: 180ms;
+  --echo-duration-medium: 340ms;
+  --echo-duration-slow: 700ms;
+}
+
+.echoContent {
+  margin-top: 10px;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+
+  /* visual inertia */
+  opacity: 0;
+  transform: translateY(4px);
+  filter: blur(4px);
+
+  animation: echoReveal var(--echo-duration-slow) var(--echo-ease) forwards;
+}
+
+@keyframes echoReveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+    filter: blur(0px);
+  }
+}
+
+.echoCooldown {
+  opacity: 0;
+  animation: echoCooldownFade var(--echo-duration-medium) var(--echo-ease) forwards;
+}
+
+@keyframes echoCooldownFade {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* backdrop that allows silent exit */
+.echoBackdrop {
+  position: relative;
+}
+
+/* long press close hint */
+.echoExitHint {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  margin-top: 8px;
+}
+
+/* context label — nonjudgmental */
+.echoContextLabel {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+/* do NOT look like warnings */
+.echoCooldownText {
+  opacity: 0.8;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* ─────────────────────────────
+   VISUAL INERTIA SYSTEM
+   calm, weighted, slow easing
+   ───────────────────────────── */
+
+.inertiaEnter {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 280ms ease, transform 280ms ease;
+}
+
+.inertiaEnter.inertiaVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.echoCooldown {
+  opacity: 0.85;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  transition: opacity 300ms ease;
+}
+
+.echoTimeDistance {
+  opacity: 0.7;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+  transition: opacity 400ms ease;
+}
+
+.echoExit {
+  all: unset;
+  cursor: pointer;
+  font-size: 0.8rem;
+  opacity: 0.5;
+  margin-top: 6px;
+}
+
+.echoExit:hover {
+  opacity: 0.75;
+}

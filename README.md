@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+---
 
-## Getting Started
+## 🧭 Frozen Principles Index
+## 📜 Frozen Contracts Index
 
-First, run the development server:
+This index lists contracts that define meaning.
+They are not suggestions. They are binding.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+If a contract appears here, it is frozen.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frozen Contracts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Prompt–Echo Pairing Rules — Design Contract
+   - Defines the meaning of the reflection echo system
+   - Behavior must conform to this contract
+   - Code may implement, but may not reinterpret
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+(Any future contracts must be added explicitly.)
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+> This index exists to prevent silent drift.  
+> If something is listed here, it is intentionally frozen.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+These are not features. They are guarantees.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Echo never auto-surfaces
+- Echo reveals only on explicit user action
+- Echo can always be hidden again
+- No urgency language around reflection
+- Echo must never compare the user to others
+- No rankings, leaderboards, or relational metrics
+- Reflection is private and not a performance
+- Silence is always a valid state
+- Reflection is never used for pressure mechanics
 
-## Deploy on Vercel
+Changes to these must be explicit, deliberate, and documented.  
+Accidental drift is not allowed.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Frozen Principles — Prompt–Echo System
+
+> This section is normative.  
+> It defines what must remain true for this system to be itself.
+
+### Design Authority
+
+The **meaning** of the Prompt–Echo system is defined in:
+
+**Prompt–Echo Pairing Rules — Design Contract**
+
+Code exists only to enforce those boundaries.  
+If implementation conflicts with the design contract:
+
+> **the code is wrong**
+
+---
+
+### Non-Negotiable Guarantees
+
+The Prompt–Echo system must always satisfy the following:
+
+- Echoes are never auto-surfaced  
+- Echoes are collapsed by default  
+- Reveal and hide are entirely user-controlled  
+- Silence, inactivity, and absence are valid states  
+- No urgency language is permitted  
+- No comparison or ranking framing is permitted  
+- Reflection is private and not a performance  
+
+This system must feel **optional, calm, and ignorable**.
+
+---
+
+### What This System Is Not
+
+The Prompt–Echo system is **not**:
+
+- a growth mechanism  
+- a retention tool  
+- a habit-forming loop  
+- a motivational engine  
+- a self-improvement tracker  
+- a comparative analytics surface  
+
+If engagement increases, that is incidental.  
+Metrics do not justify change.
+
+---
+
+### Sources of Authority (ordered)
+
+When intent and implementation conflict, resolve in this order:
+
+1. README — Frozen Principles  
+2. Design Contracts (human-readable)  
+3. Database constraints & RLS policies  
+4. Tests  
+5. Implementation code  
+
+No lower layer may redefine the intent of a higher layer.
+
+---
+
+### Change Discipline
+
+- Frozen principles do not drift  
+- Wording changes are semantic changes  
+- “Small tweaks” are still changes  
+- Convenience is not justification  
+
+To change anything frozen:
+
+- update this index  
+- update the frozen section  
+- record why the change exists  
+
+---
+
+### Why This Exists
+
+Public metrics shape behavior.  
+Private reflection shapes identity.
+
+These must never mix.
+
+This system exists to support psychological trust —  
+not pressure, performance, or optimization.
+
+---
+
+### Freeze Clause
+
+This section is frozen.
+
+If changing it feels tempting,  
+that is a signal to stop — not proceed.
+
+---
+Echo must never pressure the user.
+No urgency framing, countdowns, streaks, or loss aversion.
+Reflection is voluntary and never rushed.
+
+Echo must never compare the user to others.
+No rankings, leaderboards, or relational metrics.
+Reflection is private and not a performance.
+

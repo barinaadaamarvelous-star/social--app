@@ -16,6 +16,7 @@
     "jsx": "react-jsx",
     "noEmit": true,
     "strict": true,
+
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -31,13 +32,20 @@
         "components/*"
       ]
     },
+
     "incremental": true,
+
+    "types": [
+      "vitest/globals"
+    ],
+
     "plugins": [
       {
         "name": "next"
       }
     ]
   },
+
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -47,6 +55,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
+
   "exclude": [
     "node_modules"
   ]

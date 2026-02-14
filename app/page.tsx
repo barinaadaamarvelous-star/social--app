@@ -1,14 +1,31 @@
-// app/page.tsx
-'use client'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-import React from 'react'
-import Editor from '@/components/Editor'
+export default async function HomePage() {
+  // cookies must be awaited
+  const cookieStore = await cookies()
 
-export default function HomePage() {
-  return (
-    <main>
-      <h1>Home</h1>
-      <Editor /> {/* no onPosted prop */}
-    </main>
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+      get(name: string) {
+       return cookieStore.get(name)?.value
+        },
+      }
+    }
   )
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  // not logged in → login
+  if (!user) {
+    redirect('/login')
+  }
+  // logged in → single allowed flow
+  redirect('/reflection/new')
 }

@@ -1,0 +1,21 @@
+export const BANNED_LANGUAGE = [
+  "streak",
+  "leaderboard",
+  "rank",
+  "hurry",
+  "urgent",
+  "come back",
+  "don’t lose progress",
+  "everyone is",
+  "others are ahead",
+  "ghosting",
+  "inactive user",
+  "failure to respond",
+  "why didn’t you reply",
+  "last chance",
+  "we expected you to",
+  "don’t fall behind",
+  "catch up",
+  "still there?",
+  "you haven’t answered"
+];

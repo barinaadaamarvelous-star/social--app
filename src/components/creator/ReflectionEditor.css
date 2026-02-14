@@ -1,0 +1,28 @@
+.reflection-locked {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 1rem;
+}
+
+.emergency-unlock summary {
+  font-size: 0.8rem;
+  color: #777;
+  cursor: pointer;
+}
+
+.unlock-note {
+  font-size: 0.8rem;
+  color: #999;
+  margin: 0.5rem 0;
+}
+
+.unlock-button {
+  opacity: 0.85;
+}
+
+.reflection-prompt {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}

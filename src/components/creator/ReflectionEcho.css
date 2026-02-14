@@ -1,0 +1,35 @@
+.reflection-echo {
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid #eee;
+}
+
+/* neutral, quiet toggle */
+.echo-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  color: #777;
+  cursor: pointer;
+}
+
+.echo-toggle:hover {
+  text-decoration: underline;
+}
+
+.echo-content {
+  margin-top: 0.75rem;
+}
+
+.echo-label {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0.5rem 0;
+}
+
+.echo-body {
+  font-size: 0.95rem;
+  color: #444;
+  white-space: pre-wrap;
+}

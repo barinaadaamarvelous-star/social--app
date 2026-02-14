@@ -1,0 +1,92 @@
+{
+  "plugins": ["regexp"],
+  "rules": {
+    "regexp/no-useless-flag": "error",
+    "regexp/no-unused-capturing-group": "error",
+    "regexp/no-super-linear-backtracking": "error",
+    "regexp/no-obscure-range": "error",
+    "regexp/optimal-quantifier-concatenation": "error",
+
+    "regexp/ban-word": [
+      "error",
+      [
+        {
+          "message": "Banned pressure or comparison language detected.",
+          "words": [
+            "streak",
+            "streaks",
+            "leaderboard",
+            "leaderboards",
+            "rank",
+            "ranking",
+            "rankings",
+            "compare",
+            "comparison",
+            "others (did|didn't|are ahead|performed better)",
+            "everyone else",
+            "other users",
+            "others did better",
+            "others are ahead",
+
+            "hurry",
+            "urgent",
+            "urgently",
+            "right now",
+            "immediately",
+            "act now",
+            "as soon as possible",
+
+            "come back",
+            "come back soon",
+            "return now",
+            "please return",
+            "don't leave",
+            "don’t leave",
+
+            "don't lose progress",
+            "do not lose progress",
+            "lose your progress",
+
+            "you haven't reflected",
+            "you have not reflected",
+            "you haven't responded",
+            "you have not responded",
+            "you haven't answered",
+            "you have not answered",
+
+            "failure to respond",
+            "failed to respond",
+            "missed reflection",
+            "missed check-in",
+            "missed session",
+
+            "don’t fall behind",
+            "don't fall behind",
+            "falling behind",
+            "catch up",
+            "catch-up",
+
+            "last chance",
+            "final chance",
+            "before it's too late",
+            "before it is too late",
+
+            "still there\\?",
+            "are you still there\\?",
+            "we expected you to",
+            "we expected a reply",
+
+            "inactive user",
+            "ghosting",
+            "ghosted",
+
+            "why didn’t you reply",
+            "why didn't you reply",
+            "why haven't you replied",
+            "why have you not replied"
+          ]
+        }
+      ]
+    ]
+  }
+}

@@ -1,20 +1,25 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin"; // service role client
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { assertCopyIsSafe } from "@/safety/copyGuard";  // ← ADD THIS
 
 export async function POST(request: Request) {
   try {
-    const { text, user_id } = await request.json();
+    const { content, user_id } = await request.json();
 
-    if (!text || !user_id) {
+    if (!content || !user_id) {
       return NextResponse.json(
         { error: "Missing text or user_id" },
         { status: 400 }
       );
     }
 
+    // 🔒 COPY-SAFETY VALIDATION
+    // Prevents urgency, pressure, ranking, guilt, etc.
+    assertCopyIsSafe(content);
+
     const { data, error } = await supabaseAdmin
       .from("posts")
-      .insert({ text, user_id })
+      .insert({ content, user_id })
       .select("*")
       .single();
 

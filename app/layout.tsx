@@ -1,6 +1,8 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
 import './globals.css'
+import { GroundReturn } from '../components/GroundReturn'
+
 
 export const metadata: Metadata = {
   title: 'My Social',
@@ -11,7 +13,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-neutral-950 text-neutral-100">
+        {children}
+        <GroundReturn />
+      </body>
     </html>
   )
 }
