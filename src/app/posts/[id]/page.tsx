@@ -20,21 +20,28 @@ export default async function PostPage({
         get(name: string) {
           return cookieStore.get(name)?.value
         },
+        set(name: string, value: string, options: any) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options: any) {
+          cookieStore.set({ name, value: '', ...options })
+        },
       },
     }
   )
 
+  // Get current user
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // total likes count
+  // Get total likes
   const { count } = await supabase
     .from('likes')
     .select('*', { count: 'exact', head: true })
     .eq('post_id', postId)
 
-  // did this user like?
+  // Check if user liked
   let initiallyLiked = false
 
   if (user) {
