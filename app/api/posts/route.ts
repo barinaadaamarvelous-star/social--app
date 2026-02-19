@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { assertCopyIsSafe } from "@/safety/copyGuard";  // ← ADD THIS
+import { assertCopyIsSafe } from "@/safety/copyGuard";
+
+type CreatePostBody = {
+  content: string;
+  user_id: string;
+};
 
 export async function POST(request: Request) {
   try {
-    const { content, user_id } = await request.json();
+    const body = (await request.json()) as CreatePostBody;
+    const { content, user_id } = body;
 
     if (!content || !user_id) {
       return NextResponse.json(
@@ -14,7 +20,6 @@ export async function POST(request: Request) {
     }
 
     // 🔒 COPY-SAFETY VALIDATION
-    // Prevents urgency, pressure, ranking, guilt, etc.
     assertCopyIsSafe(content);
 
     const { data, error } = await supabaseAdmin
@@ -29,9 +34,12 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true, post: data }, { status: 200 });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : "Server error";
+
     return NextResponse.json(
-      { error: err.message || "Server error" },
+      { error: message },
       { status: 500 }
     );
   }
