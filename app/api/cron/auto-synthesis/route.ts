@@ -1,12 +1,7 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import OpenAI from 'openai'
 
 export const runtime = 'nodejs'
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-})
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   // 🔐 Protect cron endpoint
@@ -17,20 +12,33 @@ export async function GET(req: Request) {
     }
   }
 
-  // ✅ CORRECT CLIENT FOR CRON (NO COOKIES)
-  const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-  )
+  // ✅ Dynamic imports (build safe)
+  const { createClient } = await import('@supabase/supabase-js')
+  const OpenAI = (await import('openai')).default
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const openaiKey = process.env.OPENAI_API_KEY
+
+  if (!supabaseUrl || !serviceKey || !openaiKey) {
+    return NextResponse.json(
+      { error: 'Missing required environment variables' },
+      { status: 500 }
+    )
+  }
+
+  const supabase = createClient(supabaseUrl, serviceKey)
+
+  const openai = new OpenAI({
+    apiKey: openaiKey,
+  })
 
   // 1️⃣ YEARLY PERIOD
   const now = new Date()
-
   const year = now.getUTCFullYear() - 1
 
   const periodStart = new Date(Date.UTC(year, 0, 1, 0, 0, 0)).toISOString()
   const periodEnd = new Date(Date.UTC(year, 11, 31, 23, 59, 59)).toISOString()
-
 
   // 2️⃣ USERS WITH REFLECTIONS
   const { data: rows, error } = await supabase
@@ -50,7 +58,6 @@ export async function GET(req: Request) {
   let skipped = 0
 
   for (const userId of userIds) {
-    // 3️⃣ IDEMPOTENCY CHECK
     const { data: existing } = await supabase
       .from('reflection_syntheses')
       .select('id')
@@ -64,7 +71,6 @@ export async function GET(req: Request) {
       continue
     }
 
-    // 4️⃣ FETCH REFLECTIONS
     const { data: reflections } = await supabase
       .from('creator_reflections')
       .select('body')
@@ -82,7 +88,6 @@ export async function GET(req: Request) {
       .map((r, i) => `Entry ${i + 1}:\n${r.body}`)
       .join('\n\n')
 
-    // 5️⃣ GENERATE SYNTHESIS
     const completion = await openai.chat.completions.create({
       model: 'gpt-4.1-mini',
       temperature: 0.35,
@@ -125,7 +130,6 @@ ${combined}
       continue
     }
 
-    // 6️⃣ INSERT
     await supabase.from('reflection_syntheses').insert({
       user_id: userId,
       period_start: periodStart,
