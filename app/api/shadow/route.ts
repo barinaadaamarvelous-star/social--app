@@ -1,10 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type { ShadowEvent } from '@/lib/shadowTypes'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request) {
   const body = await req.json()
@@ -32,6 +29,12 @@ export async function POST(req: Request) {
   if (!allowed.includes(eventType)) {
     return new Response(null, { status: 400 })
   }
+
+  // ✅ Create client INSIDE handler
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
 
   await supabase.from('shadow_events').insert({
     post_id: postId,
