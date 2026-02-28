@@ -1,9 +1,14 @@
+// lib/stripe.ts
 import Stripe from 'stripe'
 
-export const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY!,
-  {
-    // IMPORTANT: must match SDK-pinned version
-    apiVersion: '2026-01-28.clover',
+export function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY
+
+  if (!key) {
+    throw new Error('Missing STRIPE_SECRET_KEY')
   }
-)
+
+  return new Stripe(key, {
+    apiVersion: '2026-01-28.clover',
+  })
+}
