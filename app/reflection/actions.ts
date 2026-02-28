@@ -3,7 +3,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { redirect } from 'next/navigation'
 
 function getWeekStart(date = new Date()) {
@@ -107,6 +107,7 @@ export async function startSynthesisCheckout() {
   if (!user) {
     throw new Error('Not authenticated')
   }
+  const stripe = getStripe()
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',

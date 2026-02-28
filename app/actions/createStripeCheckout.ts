@@ -1,11 +1,12 @@
 'use server'
 
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 export async function createStripeCheckout(synthesisId: string) {
   const cookieStore = await cookies()
+  
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,7 +28,8 @@ export async function createStripeCheckout(synthesisId: string) {
   if (!user) {
     throw new Error('Not authenticated')
   }
-
+  const stripe = getStripe()
+  
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     payment_method_types: ['card'],

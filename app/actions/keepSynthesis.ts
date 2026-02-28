@@ -1,6 +1,6 @@
 'use server'
 
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
@@ -54,6 +54,8 @@ export async function keepSynthesis(synthesisId: string) {
   }
 
   // Create Stripe Checkout session
+  const stripe = getStripe()
+
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     payment_method_types: ['card'],
