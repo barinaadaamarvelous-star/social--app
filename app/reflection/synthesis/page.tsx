@@ -5,7 +5,6 @@ import { generateSynthesis } from './action'
 import { KeepButton } from '@/components/KeepButton'
 import { TriggerSynthesisButton } from './TriggerSynthesisButton'
 
-
 export default async function SynthesisPage({
   searchParams,
 }: {
@@ -45,6 +44,45 @@ export default async function SynthesisPage({
     .limit(1)
     .maybeSingle()
 
+  // ── server action: respond to synthesis ─────
+  async function respondToYear(formData: FormData) {
+    'use server'
+
+    const body = formData.get('body') as string
+
+    if (!body || body.trim().length === 0) return
+
+    const cookieStore = await cookies()
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll()
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
+          },
+        },
+      }
+    )
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) return
+
+    await supabase.from('creator_reflections').insert({
+      user_id: user.id,
+      body: body.trim(),
+    })
+  }
+
   // ── TEMP trigger UI (internal only) ─────────
   if (!synthesis) {
     return (
@@ -73,50 +111,117 @@ export default async function SynthesisPage({
 
   // ── unpaid gate ─────────────────────────────
   if (!synthesis.paid) {
+    return (
+      <main className="max-w-2xl mx-auto py-16 space-y-10">
+        <section className="space-y-4">
+          <p className="text-sm opacity-70">
+            A synthesis has formed from this period.
+          </p>
+
+          <p className="text-sm opacity-70">
+            You can read it now. Keeping it is optional.
+          </p>
+        </section>
+
+        {/* ── Paid Moment ───────────────────── */}
+        <section className="border rounded-2xl p-8 space-y-6">
+          <div className="space-y-3">
+            <h2 className="text-base font-medium">
+              Keep this permanently — $12
+            </h2>
+
+            <p className="text-sm opacity-70 leading-relaxed">
+              This preserves the synthesis in your archive.
+              One payment. No subscription.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {/* Primary: Continue free */}
+            <a
+              href="/dashboard"
+              className="block w-full text-center border rounded-xl py-3 text-sm opacity-80 hover:opacity-100 transition"
+            >
+              Continue free
+            </a>
+
+            {/* Secondary: Keep */}
+            <KeepButton synthesisId={synthesis.id} />
+
+            <p className="text-xs text-center opacity-50 pt-2">
+              7-day refund. If it doesn’t help you think clearly, get your money back.
+            </p>
+          </div>
+        </section>
+
+        {/* ── Respond Section (FREE) ─────────── */}
+        <section className="space-y-4">
+          <h3 className="text-sm font-medium opacity-80">
+            Respond to this year
+          </h3>
+
+          <p className="text-xs opacity-60">
+            What feels true? What feels unfinished?
+          </p>
+
+          <form action={respondToYear} className="space-y-4">
+            <textarea
+              name="body"
+              rows={6}
+              placeholder="Write your response..."
+              className="w-full border rounded-xl p-4 text-sm resize-none focus:outline-none"
+            />
+
+            <button
+              type="submit"
+              className="text-sm border rounded-lg px-4 py-2 opacity-80 hover:opacity-100 transition"
+            >
+              Save reflection
+            </button>
+          </form>
+        </section>
+      </main>
+    )
+  }
+
+  // ── paid synthesis view ─────────────────────
   return (
     <main className="max-w-2xl mx-auto py-16 space-y-10">
+
+      {/* synthesis content */}
+      <section className="space-y-6">
+        <pre className="text-sm whitespace-pre-wrap opacity-90">
+          {JSON.stringify(synthesis.content, null, 2)}
+        </pre>
+      </section>
+
+      {/* ── Respond Section ─────────────────── */}
       <section className="space-y-4">
-        <p className="text-sm opacity-70">
-          A synthesis has formed from this period.
+        <h3 className="text-sm font-medium opacity-80">
+          Respond to this year
+        </h3>
+
+        <p className="text-xs opacity-60">
+          What feels true? What feels unfinished?
         </p>
 
-        <p className="text-sm opacity-70">
-          You can read it now. Keeping it is optional.
-        </p>
-      </section>
+        <form action={respondToYear} className="space-y-4">
+          <textarea
+            name="body"
+            rows={6}
+            placeholder="Write your response..."
+            className="w-full border rounded-xl p-4 text-sm resize-none focus:outline-none"
+          />
 
-      {/* ── Paid Moment ───────────────────── */}
-      <section className="border rounded-2xl p-8 space-y-6">
-        <div className="space-y-3">
-          <h2 className="text-base font-medium">
-            Keep this permanently — $12
-          </h2>
-
-          <p className="text-sm opacity-70 leading-relaxed">
-            This preserves the synthesis in your archive.
-            One payment. No subscription.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          {/* Primary: Continue free */}
-          <a
-            href="/dashboard"
-            className="block w-full text-center border rounded-xl py-3 text-sm opacity-80 hover:opacity-100 transition"
+          <button
+            type="submit"
+            className="text-sm border rounded-lg px-4 py-2 opacity-80 hover:opacity-100 transition"
           >
-            Continue free
-          </a>
-
-          {/* Secondary: Keep */}
-          <KeepButton synthesisId={synthesis.id} />
-
-          {/* Calm refund language */}
-          <p className="text-xs text-center opacity-50 pt-2">
-            7-day refund. If it doesn’t help you think clearly, get your money back.
-          </p>
-        </div>
+            Save reflection
+          </button>
+        </form>
       </section>
+
     </main>
   )
-}
 }
