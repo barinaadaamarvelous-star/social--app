@@ -36,7 +36,16 @@ export default async function SynthesisPage({
 
   if (!user) redirect('/login')
 
-  // ── fetch latest synthesis ──────────────────
+  // ── reflection count this year ─────────────
+  const startOfYear = new Date(new Date().getFullYear(), 0, 1).toISOString()
+
+  const { count: reflectionCount } = await supabase
+    .from('creator_reflections')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .gte('created_at', startOfYear)
+
+  // ── fetch latest synthesis ─────────────────
   const { data: synthesis } = await supabase
     .from('reflection_syntheses')
     .select('*')
@@ -45,7 +54,7 @@ export default async function SynthesisPage({
     .limit(1)
     .maybeSingle()
 
-  // ── server action: respond to synthesis ─────
+  // ── server action: respond to synthesis ────
   async function respondToYear(formData: FormData) {
     'use server'
 
@@ -84,7 +93,7 @@ export default async function SynthesisPage({
     })
   }
 
-  // ── TEMP trigger UI (internal only) ─────────
+  // ── TEMP trigger UI (internal only) ────────
   if (!synthesis) {
     return (
       <main className="max-w-2xl mx-auto py-12 space-y-6">
@@ -92,7 +101,6 @@ export default async function SynthesisPage({
           Nothing has settled yet.
         </p>
 
-        {/* TEMP — remove later */}
         <form
           action={async () => {
             'use server'
@@ -110,7 +118,7 @@ export default async function SynthesisPage({
     )
   }
 
-  // ── unpaid gate ─────────────────────────────
+  // ── unpaid gate ────────────────────────────
   if (!synthesis.paid) {
     return (
       <main className="max-w-2xl mx-auto py-16 space-y-10">
@@ -124,7 +132,6 @@ export default async function SynthesisPage({
           </p>
         </section>
 
-        {/* ── Paid Moment ───────────────────── */}
         <section className="border rounded-2xl p-8 space-y-6">
           <div className="space-y-3">
             <h2 className="text-base font-medium">
@@ -138,7 +145,6 @@ export default async function SynthesisPage({
           </div>
 
           <div className="space-y-4">
-            {/* Primary: Continue free */}
             <a
               href="/dashboard"
               className="block w-full text-center border rounded-xl py-3 text-sm opacity-80 hover:opacity-100 transition"
@@ -146,7 +152,6 @@ export default async function SynthesisPage({
               Continue free
             </a>
 
-            {/* Secondary: Keep */}
             <KeepButton synthesisId={synthesis.id} />
 
             <p className="text-xs text-center opacity-50 pt-2">
@@ -155,7 +160,6 @@ export default async function SynthesisPage({
           </div>
         </section>
 
-        {/* ── Respond Section (FREE) ─────────── */}
         <section className="space-y-4">
           <h3 className="text-sm font-medium opacity-80">
             Respond to this year
@@ -184,10 +188,10 @@ export default async function SynthesisPage({
       </main>
     )
   }
-  
-  // ── paid synthesis view ─────────────────────
+
+  // ── paid synthesis view ────────────────────
   return (
-     <main className="max-w-2xl mx-auto py-16 space-y-10">
+    <main className="max-w-2xl mx-auto py-16 space-y-10">
 
       {/* archive link */}
       <div className="flex justify-end">
@@ -199,15 +203,19 @@ export default async function SynthesisPage({
         </a>
       </div>
 
+      {/* reflection count */}
+      <p className="text-xs opacity-60">
+        {reflectionCount ?? 0} reflections this year
+      </p>
+
       {/* synthesis content */}
       <section className="space-y-6">
         <pre className="text-sm whitespace-pre-wrap opacity-90">
           {JSON.stringify(synthesis.content, null, 2)}
         </pre>
       </section>
-  
 
-      {/* ── Respond Section ─────────────────── */}
+      {/* respond section */}
       <section className="space-y-4">
         <h3 className="text-sm font-medium opacity-80">
           Respond to this year
