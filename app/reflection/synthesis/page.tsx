@@ -202,6 +202,12 @@ export default async function SynthesisPage({
           View past syntheses
         </a>
       </div>
+      {/* kept badge */}
+      {synthesis.paid && (
+        <p className="text-xs opacity-70">
+          ✓ Kept
+        </p>
+      )}
 
       {/* reflection count */}
       <p className="text-xs opacity-60">
