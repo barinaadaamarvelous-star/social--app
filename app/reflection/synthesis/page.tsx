@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { generateSynthesis } from './action'
 import { KeepButton } from '@/components/KeepButton'
 import { TriggerSynthesisButton } from './TriggerSynthesisButton'
+import Link from "next/link";
 
 export default async function SynthesisPage({
   searchParams,
@@ -183,10 +184,20 @@ export default async function SynthesisPage({
       </main>
     )
   }
-
+  
   // ── paid synthesis view ─────────────────────
   return (
-    <main className="max-w-2xl mx-auto py-16 space-y-10">
+     <main className="max-w-2xl mx-auto py-16 space-y-10">
+
+      {/* archive link */}
+      <div className="flex justify-end">
+        <a
+          href="/synthesis/archive"
+          className="text-xs opacity-60 hover:opacity-100 underline transition"
+        >
+          View past syntheses
+        </a>
+      </div>
 
       {/* synthesis content */}
       <section className="space-y-6">
@@ -194,6 +205,7 @@ export default async function SynthesisPage({
           {JSON.stringify(synthesis.content, null, 2)}
         </pre>
       </section>
+  
 
       {/* ── Respond Section ─────────────────── */}
       <section className="space-y-4">
