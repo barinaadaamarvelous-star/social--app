@@ -237,11 +237,49 @@ export default async function SynthesisPage({
         {reflectionCount ?? 0} reflections this year
       </p>
 
-      {/* synthesis content */}
-      <section className="space-y-6">
-        <pre className="text-sm whitespace-pre-wrap opacity-90">
-          {JSON.stringify(synthesis.content, null, 2)}
-        </pre>
+       {/* synthesis content */}
+   <section className="space-y-8">
+
+   {/* title */}
+   <h1 className="text-2xl font-semibold leading-tight">
+     {synthesis.content.title}
+   </h1>
+
+   {/* summary */}
+   <p className="text-sm leading-relaxed opacity-90">
+     {synthesis.content.summary}
+   </p>
+
+   {/* themes */}
+   {synthesis.content.themes?.length > 0 && (
+     <div className="space-y-3">
+       <h3 className="text-sm font-medium opacity-70">
+         Themes
+       </h3>
+
+       <ul className="space-y-1 text-sm opacity-90">
+         {synthesis.content.themes.map((theme: string, i: number) => (
+           <li key={i}>• {theme}</li>
+         ))}
+       </ul>
+     </div>
+   )}
+
+   {/* notable lines */}
+   {synthesis.content.notable_lines?.length > 0 && (
+     <div className="space-y-3">
+       <h3 className="text-sm font-medium opacity-70">
+         Notable lines
+       </h3>
+
+       <div className="space-y-3 text-sm italic opacity-90">
+         {synthesis.content.notable_lines.map((line: string, i: number) => (
+           <p key={i}>"{line}"</p>
+         ))}
+       </div>
+     </div>
+        )}
+
       </section>
 
       {/* respond section */}
