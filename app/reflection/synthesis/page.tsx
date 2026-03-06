@@ -118,20 +118,40 @@ export default async function SynthesisPage({
     )
   }
 
+  // ── preview text ───────────────────────────
+  const preview = JSON.stringify(synthesis.content, null, 2).slice(0, 500)
+
   // ── unpaid gate ────────────────────────────
   if (!synthesis.paid) {
     return (
       <main className="max-w-2xl mx-auto py-16 space-y-10">
+
         <section className="space-y-4">
           <p className="text-sm opacity-70">
             A synthesis has formed from this period.
           </p>
 
           <p className="text-sm opacity-70">
-            You can read it now. Keeping it is optional.
+            You can read part of it now. Keeping it is optional.
           </p>
         </section>
 
+        {/* ── synthesis preview ───────────────── */}
+        <section className="space-y-4 border rounded-xl p-6 bg-neutral-50">
+          <p className="text-xs uppercase tracking-wide opacity-50">
+            Preview
+          </p>
+
+          <pre className="text-sm whitespace-pre-wrap opacity-80">
+            {preview}...
+          </pre>
+
+          <p className="text-xs opacity-50">
+            The full synthesis is available if you choose to keep it.
+          </p>
+        </section>
+
+        {/* ── Paid Moment ───────────────────── */}
         <section className="border rounded-2xl p-8 space-y-6">
           <div className="space-y-3">
             <h2 className="text-base font-medium">
@@ -160,6 +180,7 @@ export default async function SynthesisPage({
           </div>
         </section>
 
+        {/* ── Respond Section ─────────── */}
         <section className="space-y-4">
           <h3 className="text-sm font-medium opacity-80">
             Respond to this year
@@ -185,6 +206,7 @@ export default async function SynthesisPage({
             </button>
           </form>
         </section>
+
       </main>
     )
   }
@@ -202,6 +224,7 @@ export default async function SynthesisPage({
           View past syntheses
         </a>
       </div>
+
       {/* kept badge */}
       {synthesis.paid && (
         <p className="text-xs opacity-70">
