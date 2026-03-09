@@ -238,7 +238,21 @@ export default async function SynthesisPage({
       </p>
 
        {/* synthesis content */}
-   <section className="space-y-8">
+       <section className="space-y-8">
+
+   {/* period label */}
+   <div className="text-xs uppercase tracking-wide opacity-60">
+     {new Date(synthesis.period_start).getFullYear()} Reflection Synthesis
+   </div>
+
+   <h1 className="text-2xl font-semibold leading-tight">
+     {synthesis.content.title}
+   </h1>
+
+   <p className="text-sm leading-relaxed opacity-90">
+     {synthesis.content.summary}
+   </p>
+
 
    {/* title */}
    <h1 className="text-2xl font-semibold leading-tight">
