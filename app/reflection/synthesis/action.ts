@@ -139,7 +139,7 @@ ${combined}
 
   if (insertError) throw insertError
 
-  revalidatePath('/synthesis')
+  revalidatePath('/reflection/synthesis')
 
   return {
     success: true,
