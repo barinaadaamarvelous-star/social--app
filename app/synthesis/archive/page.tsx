@@ -31,64 +31,73 @@ export default async function ArchivePage() {
     .eq('user_id', user.id)
     .order('period_start', { ascending: false })
 
-  return (
-    <main className="max-w-2xl mx-auto py-16 space-y-10">
+   return (
+   <main className="max-w-2xl mx-auto py-16 space-y-12">
 
-      <section className="space-y-2">
-        <h1 className="text-lg font-medium">
-          Yearly Syntheses
-        </h1>
+    <section className="space-y-2">
+      <h1 className="text-lg font-medium">
+        Reflection Timeline
+      </h1>
 
+      <p className="text-sm opacity-60">
+        A record of how your thinking has evolved over time.
+      </p>
+    </section>
+
+    <section className="space-y-6">
+
+      {!syntheses?.length && (
         <p className="text-sm opacity-60">
-          A record of how your thinking has evolved.
+          No syntheses yet.
         </p>
-      </section>
+      )}
 
-      <section className="space-y-4">
+      {syntheses?.map((synthesis) => {
+        const year = new Date(synthesis.period_start).getFullYear()
 
-        {!syntheses?.length && (
-          <p className="text-sm opacity-60">
-            No syntheses yet.
-          </p>
-        )}
+        const title =
+          synthesis.content?.title || "Untitled synthesis"
 
-        {syntheses?.map((synthesis) => {
-          const year = new Date(synthesis.period_start).getFullYear()
+        return (
+          <Link
+            key={synthesis.id}
+            href={`/reflection/synthesis/${synthesis.id}`}
+            className="block border rounded-xl p-5 hover:opacity-80 transition"
+          >
+            <div className="flex items-start justify-between">
 
-          return (
-            <Link
-              key={synthesis.id}
-              href="/reflection/synthesis"
-              className="block border rounded-xl p-4 hover:opacity-80 transition"
-            >
-              <div className="flex items-center justify-between">
+              <div className="space-y-2">
 
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">
-                    {year}
-                  </p>
+                <p className="text-sm opacity-60">
+                  {year}
+                </p>
 
-                  <p className="text-xs opacity-60">
-                    {new Date(synthesis.period_start).toLocaleDateString()} —{" "}
-                    {new Date(synthesis.period_end).toLocaleDateString()}
-                  </p>
-                </div>
+                <p className="text-base font-medium">
+                  {title}
+                </p>
 
-                <div className="text-xs opacity-70">
-                  {synthesis.refunded
-                    ? "Refunded"
-                    : synthesis.paid
-                    ? "Kept"
-                    : "Free"}
-                </div>
+                <p className="text-xs opacity-60">
+                  {new Date(synthesis.period_start).toLocaleDateString()} —{" "}
+                  {new Date(synthesis.period_end).toLocaleDateString()}
+                </p>
 
               </div>
-            </Link>
-          )
-        })}
 
-      </section>
+              <div className="text-xs opacity-70">
+                {synthesis.refunded
+                  ? "Refunded"
+                  : synthesis.paid
+                  ? "Kept"
+                  : "Free"}
+              </div>
 
-    </main>
-  )
+            </div>
+          </Link>
+        )
+      })}
+
+    </section>
+
+  </main>
+)
 }
