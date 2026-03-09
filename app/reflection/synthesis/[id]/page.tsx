@@ -87,6 +87,30 @@ export default async function SynthesisPage({
         )}
 
       </section>
+       
+      <section className="pt-6 border-t space-y-3">
+
+       <h3 className="text-sm font-medium opacity-80">
+        Take the thinking further
+       </h3>
+
+      <form action="/reflection/evolve">
+        <textarea
+           name="input"
+           placeholder="Evolve this idea..."
+           className="w-full border rounded-lg p-3 text-sm"
+          rows={4}
+        />
+
+       <button
+         type="submit"
+         className="mt-3 text-sm border px-4 py-2 rounded-lg hover:opacity-80"
+       >
+           Evolve this idea
+        </button>
+       </form>
+
+     </section>
 
     </main>
   )
