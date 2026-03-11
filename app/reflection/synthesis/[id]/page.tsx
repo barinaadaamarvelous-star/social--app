@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { evolveIdea } from '@/app/reflection/evolve/actions'
 
 export default async function SynthesisPage({
   params,
@@ -57,8 +58,8 @@ export default async function SynthesisPage({
           {content.title}
         </h1>
       </section>
-      {/* evolution chain */}
-{evolutions && evolutions.length > 0 && (
+          {/* evolution chain */}
+     {evolutions && evolutions.length > 0 && (
   <section className="pt-10 border-t space-y-6">
 
     <h3 className="text-sm font-medium opacity-80">
@@ -132,7 +133,7 @@ export default async function SynthesisPage({
         </div>
 
        </section>
-     )}
+         )}
 
       <section className="space-y-8">
 
@@ -153,6 +154,44 @@ export default async function SynthesisPage({
             </ul>
           </div>
         )}
+          
+          {/* evolve again */}
+    <section className="pt-10 border-t space-y-4">
+
+      <h3 className="text-sm font-medium opacity-80">
+        Continue the thinking
+      </h3>
+
+      <p className="text-xs opacity-60">
+        Push the idea further. Challenge it, extend it, or explore a new angle.
+      </p>
+
+      <form action={evolveIdea} className="space-y-4">
+
+        <input
+          type="hidden"
+          name="synthesisId"
+          value={synthesis.id}
+        />
+
+        <textarea
+          name="inputText"
+          rows={4}
+          placeholder="Take the idea further..."
+          className="w-full border rounded-xl p-4 text-sm resize-none focus:outline-none"
+        />
+
+        <button
+           type="submit"
+          className="text-sm border rounded-lg px-4 py-2 opacity-80 hover:opacity-100 transition"
+         >
+           Evolve this idea
+        </button>
+
+      </form>
+
+     </section>
+             
 
         {content.notable_lines?.length > 0 && (
           <div className="space-y-3">

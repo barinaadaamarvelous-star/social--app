@@ -9,10 +9,9 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 })
 
-export async function evolveIdea(
-  synthesisId: string,
-  inputText: string
-) {
+export async function evolveIdea(formData: FormData) {
+  const synthesisId = formData.get('synthesisId') as string
+  const inputText = formData.get('inputText') as string
   const cookieStore = await cookies()
 
   const supabase = createServerClient(
