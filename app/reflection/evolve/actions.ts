@@ -12,6 +12,7 @@ const openai = new OpenAI({
 export async function evolveIdea(formData: FormData) {
   const synthesisId = formData.get('synthesisId') as string
   const inputText = formData.get('inputText') as string
+  const type = (formData.get('type') as string) || 'evolve'
   const cookieStore = await cookies()
 
   const supabase = createServerClient(

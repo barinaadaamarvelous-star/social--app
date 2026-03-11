@@ -155,40 +155,92 @@ export default async function SynthesisPage({
           </div>
         )}
           
-          {/* evolve again */}
-    <section className="pt-10 border-t space-y-4">
+          {/* explore the idea */}
+<section className="pt-10 border-t space-y-6">
 
-      <h3 className="text-sm font-medium opacity-80">
-        Continue the thinking
-      </h3>
+  <h3 className="text-sm font-medium opacity-80">
+    Explore this idea further
+  </h3>
 
-      <p className="text-xs opacity-60">
-        Push the idea further. Challenge it, extend it, or explore a new angle.
+  <p className="text-xs opacity-60">
+    Good thinking grows when ideas are expanded, questioned, or applied.
+  </p>
+
+  <div className="space-y-6">
+
+    {/* evolve */}
+    <form action={evolveIdea} className="space-y-3">
+      <input type="hidden" name="synthesisId" value={synthesis.id} />
+      <input type="hidden" name="type" value="evolve" />
+
+      <p className="text-sm font-medium">
+        Push this idea further
       </p>
 
-      <form action={evolveIdea} className="space-y-4">
+      <textarea
+        name="inputText"
+        rows={3}
+        placeholder="Extend the idea or explore a deeper perspective..."
+        className="w-full border rounded-xl p-4 text-sm resize-none focus:outline-none"
+      />
 
-        <input
-          type="hidden"
-          name="synthesisId"
-          value={synthesis.id}
-        />
+      <button
+        type="submit"
+        className="text-sm border rounded-lg px-4 py-2 opacity-80 hover:opacity-100 transition"
+      >
+        Evolve the idea
+      </button>
+    </form>
 
-        <textarea
-          name="inputText"
-          rows={4}
-          placeholder="Take the idea further..."
-          className="w-full border rounded-xl p-4 text-sm resize-none focus:outline-none"
-        />
+    {/* challenge */}
+    <form action={evolveIdea} className="space-y-3">
+      <input type="hidden" name="synthesisId" value={synthesis.id} />
+      <input type="hidden" name="type" value="challenge" />
 
-        <button
-           type="submit"
-          className="text-sm border rounded-lg px-4 py-2 opacity-80 hover:opacity-100 transition"
-         >
-           Evolve this idea
-        </button>
+      <p className="text-sm font-medium">
+        Question this idea
+      </p>
 
-      </form>
+      <textarea
+        name="inputText"
+        rows={3}
+        placeholder="What might be wrong with this idea?"
+        className="w-full border rounded-xl p-4 text-sm resize-none focus:outline-none"
+      />
+
+      <button
+        type="submit"
+        className="text-sm border rounded-lg px-4 py-2 opacity-80 hover:opacity-100 transition"
+      >
+        Challenge the idea
+      </button>
+    </form>
+
+    {/* apply */}
+    <form action={evolveIdea} className="space-y-3">
+      <input type="hidden" name="synthesisId" value={synthesis.id} />
+      <input type="hidden" name="type" value="apply" />
+
+      <p className="text-sm font-medium">
+        Turn this idea into action
+      </p>
+
+      <textarea
+        name="inputText"
+        rows={3}
+        placeholder="How could this idea be tested or applied?"
+        className="w-full border rounded-xl p-4 text-sm resize-none focus:outline-none"
+      />
+
+      <button
+        type="submit"
+        className="text-sm border rounded-lg px-4 py-2 opacity-80 hover:opacity-100 transition"
+      >
+        Apply the idea
+      </button>
+       </form>
+
+      </div>
 
      </section>
              
