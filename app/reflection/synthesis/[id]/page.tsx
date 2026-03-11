@@ -35,6 +35,12 @@ export default async function SynthesisPage({
     .eq('user_id', user.id)
     .single()
 
+    const { data: evolutions } = await supabase
+  .from('reflection_evolutions')
+  .select('*')
+  .eq('synthesis_id', params.id)
+  .order('created_at', { ascending: true })
+
   if (!synthesis) redirect('/synthesis/archive')
 
   const content = synthesis.content
@@ -51,6 +57,82 @@ export default async function SynthesisPage({
           {content.title}
         </h1>
       </section>
+      {/* evolution chain */}
+{evolutions && evolutions.length > 0 && (
+  <section className="pt-10 border-t space-y-6">
+
+    <h3 className="text-sm font-medium opacity-80">
+      Thinking evolution
+    </h3>
+
+    <div className="space-y-6">
+
+      {evolutions.map((evolution, i) => {
+
+        const output = evolution.ai_output || {}
+
+        return (
+          <div
+            key={evolution.id}
+            className="border rounded-xl p-5 space-y-4"
+          >
+
+            <div className="text-xs opacity-60">
+              Cycle {i + 1}
+            </div>
+
+            <div className="space-y-2">
+
+              <p className="text-xs opacity-60">
+                Your thought
+              </p>
+
+              <p className="text-sm">
+                {evolution.input_text}
+              </p>
+
+            </div>
+
+            {output.evolved_insight && (
+              <div className="space-y-2">
+
+                <p className="text-xs opacity-60">
+                  Evolved insight
+                </p>
+
+                <p className="text-sm leading-relaxed">
+                  {output.evolved_insight}
+                </p>
+
+              </div>
+            )}
+
+                {output.new_questions?.length > 0 && (
+                  <div className="space-y-2">
+
+                    <p className="text-xs opacity-60">
+                      New questions
+                    </p>
+
+                     <ul className="text-sm space-y-1">
+                      {output.new_questions.map(
+                        (q: string, i: number) => (
+                          <li key={i}>• {q}</li>
+                         )
+                      )}
+                    </ul>
+
+                  </div>
+                )}
+
+             </div>
+            )
+          })}
+
+        </div>
+
+       </section>
+     )}
 
       <section className="space-y-8">
 
